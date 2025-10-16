@@ -1,0 +1,130 @@
+import asyncio
+from chatterly.refree.refree import Referee
+from chatterly.audio.audio import AudioChunk
+import sounddevice as sd
+import numpy as np
+# import edge_tts
+from pydub import AudioSegment
+import io
+import soundfile as sf
+import subprocess
+from TTS.api import TTS
+
+# # Load XTTSv2 once (outside the function for performance)
+import torch
+# from torch.serialization import add_safe_globals
+from TTS.tts.configs.xtts_config import XttsConfig
+from TTS.tts.models.xtts import XttsAudioConfig
+from chatterly.utils.logger import setup_daily_logger
+# Allowlist XTTSv2 config classes
+# add_safe_globals([XttsConfig, XttsAudioConfig])
+from TTS.api import TTS
+xtts = TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v2", gpu=True)
+
+class CommunicationLoop:
+    def __init__(self, agent_text):
+        self.user_chunks = []
+        self.referee = Referee()
+        self.agent_text = agent_text
+        
+
+    async def capture_user_audio(self, loop, duration=2, samplerate=16000):
+        print("⏳ Listening for user response...")
+        audio = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='float32')
+        sd.wait()
+        chunk = AudioChunk(audio, samplerate)
+        loop.user_chunks.append(chunk)
+        print("User audio chunk captured.")
+        
+
+    async def generate_agent_audio_in_memory_with_xtts(self, text, speaker_wav="./recording_1760540826.wav", language="en"):
+        try:
+            # Generate speech to in-memory buffer
+            buffer = io.BytesIO()
+            xtts.tts_to_file(
+                text=text,
+                speaker_wav=speaker_wav,
+                language=language,
+                file_path=buffer
+            )
+            buffer.seek(0)
+
+            # Load WAV from buffer
+            samples, samplerate = sf.read(buffer, dtype="float32")
+            if samples.ndim == 2 and samples.shape[1] == 2:
+                samples = samples.mean(axis=1)  # Convert stereo to mono
+
+            # Normalize
+            max_val = np.max(np.abs(samples))
+            if max_val > 0:
+                samples /= max_val
+            else:
+                print("Warning: Audio samples are silent")
+
+            self.agent_chunk = AudioChunk(samples, samplerate)
+            return self.agent_chunk
+
+        except Exception as e:
+            print(f"Error generating XTTSv2 audio: {e}")
+            return None
+    
+    async def generate_agent_audio_in_memory(self, text):
+        communicate = edge_tts.Communicate(text, voice="en-US-AriaNeural")
+        mp3_bytes = b""
+
+        # Stream audio chunks
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio" and chunk["data"]:
+                mp3_bytes += chunk["data"]
+            elif chunk["type"] == "Error":
+                print(f"Error from edge-tts: {chunk}")
+                return None
+
+        if not mp3_bytes:
+            print("Error: No audio data received")
+            return None
+
+        try:
+            # Decode MP3 to waveform
+            audio = AudioSegment.from_file(io.BytesIO(mp3_bytes), format="mp3")
+            samples = np.array(audio.get_array_of_samples()).astype("float32")
+            if audio.channels == 2:
+                samples = samples.reshape((-1, 2))
+
+            # Normalize samples
+            max_val = np.max(np.abs(samples))
+            if max_val > 0:
+                samples /= max_val
+            else:
+                print("Warning: Audio samples are empty or silent")
+
+            self.agent_chunk = AudioChunk(samples, audio.frame_rate)
+
+            return self.agent_chunk
+        except Exception as e:
+            print(f"Error processing audio: {e}")
+            return None
+
+
+    async def run(self, queue):
+        asyncio.create_task(self.capture_user_audio(self))
+        await asyncio.sleep(0.1)
+        await self.generate_agent_audio_in_memory_with_xtts(self.agent_text)
+        print("🔊 Playing agent audio...")
+        sd.play(self.agent_chunk.data, self.agent_chunk.frame_rate)
+        await asyncio.sleep(len(self.agent_chunk.data) / self.agent_chunk.frame_rate)  # Wait for playback to finish
+        sd.stop()
+        
+        print("⏳ Awaiting user response for 200ms...")
+        await asyncio.sleep(0.2)
+
+        if self.user_chunks:
+            score, followup = await self.referee.analyze(self.agent_chunk, self.user_chunks)
+            if score >= 0.5:
+                print(f"Loop ended with score {score}")
+            else:
+                print(f"Low score {score}, follow-up: {followup}")
+                await queue.requeue(self)
+        else:
+            print("No valid user chunks, requeuing...")
+            await queue.requeue(self)

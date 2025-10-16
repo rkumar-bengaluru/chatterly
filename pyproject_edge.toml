@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatterly"
+version = "0.1.0"
+authors = [
+  { name="Rupak Kumar...", email="rupak.kumar.ambasta@gmail.com" },
+]
+description = "A short description of your project."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    # Any external libraries your project depends on
+    "requests",
+    "numpy",
+    "sounddevice",
+    "soundfile",
+    "edge-tts",
+    "pydub"
+]
+
+[project.scripts]
+chatterly = "chatterly.__main__:main"
