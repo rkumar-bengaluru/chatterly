@@ -10,8 +10,8 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-chatterly/
-chatterlyxtts/
+chatter/
+chatterxtts/
 dist/
 downloads/
 eggs/

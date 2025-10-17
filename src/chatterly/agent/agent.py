@@ -19,6 +19,42 @@ class ChatterlyAgent:
         self.cl_queue = cl_queue
         
 
+    async def agent_speaking_with_output_stream(self, question):
+        self.state = "SPEAKING"
+        self.logger.info("🔊 Playing agent audio...")
+        await self.generate_agent_audio_in_memory(question)
+
+        audio = self.agent_chunk.data.astype(np.float32)
+        samplerate = self.agent_chunk.frame_rate
+
+        # Optional: set speaking flag here
+        self.speaking_state.set_agent_speaking(True)
+
+        def callback(outdata, frames, time, status):
+            if status:
+                self.logger.warning(f"Playback status: {status}")
+            chunk = audio[callback.pos:callback.pos + frames]
+            if len(chunk) < frames:
+                outdata[:len(chunk)] = chunk.reshape(-1, 1)
+                outdata[len(chunk):] = 0
+                raise sd.CallbackStop()
+            else:
+                outdata[:] = chunk.reshape(-1, 1)
+            callback.pos += frames
+
+        callback.pos = 0
+
+        with sd.OutputStream(samplerate=samplerate, channels=1, dtype='float32', callback=callback):
+            duration = len(audio) / samplerate
+            await asyncio.sleep(duration)
+
+        # Optional: clear speaking flag here
+        self.speaking_state.set_agent_speaking(False)
+
+        self.logger.info("✅ Agent finished speaking, asking vad thread to proceed")
+        self.cl_queue.sync_q.put("vad_proceed")
+
+
     #@LogExecutionTime(label="Agent speaking")
     async def agent_speaking(self,question):
         self.state = "SPEAKING"
