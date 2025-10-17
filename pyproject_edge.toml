@@ -17,8 +17,12 @@ dependencies = [
     "numpy",
     "sounddevice",
     "soundfile",
-    "edge-tts",
-    "pydub"
+    "TTS",
+    "pydub",
+    "webrtcvad",
+    "faster-whisper",
+    "aiofiles",
+    "janus"
 ]
 
 [project.scripts]
