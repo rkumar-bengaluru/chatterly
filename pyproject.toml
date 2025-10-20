@@ -13,11 +13,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     # Any external libraries your project depends on
-    "TTS==0.22.0",                      # XTTS-compatible version
-    "transformers==4.33.0",             # Includes BeamSearchScorer
-    "torch==2.1.2",                     # Stable with XTTS and CUDA
-    "torchaudio==2.1.2",
     "numpy==1.22.0",
+    "transformers==4.33.0",
+    "tts==0.22.0",
     "soundfile>=0.12.1",
     "pydub>=0.25.1",
     "sounddevice>=0.4.6",
@@ -30,7 +28,11 @@ dependencies = [
     "uvicorn>=0.24.0",
     "fastapi>=0.104.1",
     "rich>=13.6.0",
-    "loguru>=0.7.2"
+    "loguru>=0.7.2",
+    "edge_tts",
+    "janus",
+    "faster_whisper",
+    "aiofiles"
 ]
 
 [project.scripts]

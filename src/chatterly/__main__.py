@@ -19,12 +19,14 @@ import soundfile as sf
 import numpy as np
 
 import asyncio
+from chatterly.poc.edgetts.session import SessionManager
 
-def load_audio_chunk(file_path):
-    current_working_directory = os.getcwd()
-    full_file_path = os.path.join(current_working_directory, file_path)
-    data, samplerate = sf.read(full_file_path)
-    return AudioChunk(data.astype('float32'), samplerate)
+
+def run_session_in_thread():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(SessionManager().run())
+    loop.close()
 
 async def communication_loop():
     agent_text = "Hello my name is Rupak and I am your agent. Let me know how I can help you today."
@@ -46,7 +48,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run"])
+                        choices=["run", "agent"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -57,15 +59,17 @@ def main():
         # Start child thread
         t = threading.Thread(target=run_async_loop, name="CommLoopThread", daemon=True)
         t.start()
-
-        logger.info("Main thread waiting for shutdown...")
-
-        try:
-            while True:
-                time.sleep(1)  # Idle loop
-        except KeyboardInterrupt:
-            logger.error("Shutdown signal received. Exiting...")
+    elif args.command == "agent":
+        session_thread = threading.Thread(target=run_session_in_thread , name="SessionThread", daemon=True)
+        session_thread.start()
     
+    logger.info("Main thread waiting for shutdown...")
+
+    try:
+        while True:
+            time.sleep(1)  # Idle loop
+    except KeyboardInterrupt:
+        logger.error("Shutdown signal received. Exiting...")
 
 if __name__ == "__main__":
     main()
