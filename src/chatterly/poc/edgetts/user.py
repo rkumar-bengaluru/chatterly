@@ -52,9 +52,10 @@ class User:
                     continue
 
                 if message_type == "user_turn" and self.session_manager.state.get(task_id) == AgentUserInteractionState.AGENT_SPEAKING_DONE:
-                    self.session_manager.state[task_id] = AgentUserInteractionState.WAITING_SUBTASK_1
-                    response1 = await self.capture_response(task_id, 0)
+                    self.session_manager.state[task_id] = AgentUserInteractionState.WAITING_ANSWER
+                    response = await self.capture_response(task_id, 0)
+                    self.session_manager.status[task_id]["answer"] = response 
                     self.session_manager.state[task_id] = AgentUserInteractionState.COMPLETED
-                    self.session_manager.status[task_id]["status"] = "completed"
+                    self.session_manager.status[task_id]["status"] = AgentUserInteractionState.COMPLETED
                 self.session_manager.interaction_queue.task_done()
 

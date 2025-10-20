@@ -119,7 +119,7 @@ class ChatterlyAgent:
                     )
                     async with self.session_manager.interaction_lock:
                         self.session_manager.active_task_id = task_id
-                        self.session_manager.active_task = task.task
+                        self.session_manager.active_task = task
                         await self.speak_question(task.task)
                         await self.session_manager.interaction_queue.put(("user_turn", task_id, task.task))
                     self.session_manager.question_queue.task_done()
@@ -132,13 +132,13 @@ class ChatterlyAgent:
                     ]:
                         if (datetime.now() - start_time).total_seconds() > task.timeout:
                             self.session_manager.state[task_id] = AgentUserInteractionState.TIMED_OUT
-                            self.session_manager.status[task_id]["status"] = "timeout"
+                            self.session_manager.status[task_id]["status"] = AgentUserInteractionState.TIMED_OUT
                             break
                         await asyncio.sleep(0.5)
 
                     # Finalize task
                     if self.session_manager.state[task_id] == AgentUserInteractionState.COMPLETED:
-                        self.session_manager.status[task_id]["status"] = "completed"
+                        self.session_manager.status[task_id]["status"] = AgentUserInteractionState.COMPLETED
                     self.session_manager.active_task_id = None
 
                 except asyncio.TimeoutError:

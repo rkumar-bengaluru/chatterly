@@ -41,14 +41,14 @@ class SessionManager:
             task_id = q["id"]
             task = TaskContext(q["question"], q["timeout"], q["order"],AgentUserInteractionState.WAITING_FOR_AGENT)
             await self.question_queue.put((task_id, task))
-            # await self.question_queue.put((task_id, task))
             self.status[task_id] = {
                 "question": q["question"],
-                "status": "pending",
-                "subtasks": 0,
+                "status": AgentUserInteractionState.WAITING_FOR_AGENT,
+                "answer": None,
                 "timeout": q["timeout"],
                 "order": q["order"]
             }
+            
             self.state[task_id] = AgentUserInteractionState.WAITING_FOR_AGENT
         self.logger.info("[Producer] All questions loaded into queue.")
 
@@ -78,7 +78,7 @@ class SessionManager:
         while datetime.now() - start_time < timeout:
             all_done = (self.question_queue.empty() and 
                         self.interaction_queue.empty() and 
-                        all(info["status"] in ["completed", "timeout"] for info in self.status.values()))
+                        all(info["status"] in [AgentUserInteractionState.COMPLETED, AgentUserInteractionState.TIMED_OUT] for info in self.status.values()))
             print((datetime.now() - start_time), timeout, all_done,self.interaction_queue.empty())
             if all_done:
                 self.logger.info("[SessionManager] All questions answered. Terminating early.")
@@ -104,7 +104,7 @@ class SessionManager:
         print(self.status.items())
         self.logger.info("[SessionManager] Final status summary:")
         for task_id, info in sorted(self.status.items(), key=lambda x: x[1]["order"]):
-            self.logger.info(f"  Q{task_id[-4:]}: {info['status']} ({info['question']}) with {info['subtasks']} subtasks")
+            self.logger.info(f"  Q{task_id[-4:]}: {info['status']} ({info['question']}) with {info['answer']} subtasks")
 
 def run_session_in_thread():
     loop = asyncio.new_event_loop()

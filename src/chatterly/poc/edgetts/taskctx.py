@@ -5,4 +5,7 @@ class TaskContext:
         self.timeout = timeout 
         self.order = order 
         self.status = status 
-        self.subtasks = []
+        self.answer = None 
+
+    def values(self):
+        return [self.status]
