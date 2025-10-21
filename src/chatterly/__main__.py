@@ -17,7 +17,7 @@ from chatterly.utils.logger import setup_daily_logger
 
 import soundfile as sf
 import numpy as np
-
+import json 
 import asyncio
 # from chatterly.poc.edgetts.session import SessionManager
 from chatterly.loop.session_manager import SessionManager
@@ -48,7 +48,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent", "question"])
+                        choices=["run", "agent", "llm"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -62,22 +62,30 @@ def main():
     elif args.command == "agent":
         session_thread = threading.Thread(target=run_session_in_thread , name="SessionThread", daemon=True)
         session_thread.start()
-    elif args.command == "question":
-        from chatterly.loop.question_queue import QuestionQueue
-        from chatterly.utils.load_json import load_json_from_file
-        file_path = "./data/go_questions.json"  # Replace with your actual file path
-        data = load_json_from_file(file_path)
-        q_queue = QuestionQueue(data)
-
+    elif args.command == "llm":
+        from chatterly.eval.singleton import get_gemini_evaluator, get_openai_evaluator, get_antropic_evaluator, get_llama_evaluator
         async def run():
-            while True:
-                question = await q_queue.getNext()
-                if question is None:
-                    print("No more questions.")
-                    break
-                logger.info(f"Next Question: {question['question']}")
+            model = "gemini-2.0-flash"
+            evaluator = await get_gemini_evaluator()
+            question = "how Go's goroutines and channels facilitate concurrent programming"
+            answer = "What is the weather in chicogo today?"
+            response = await evaluator.evaluate(question=question, answer=answer)
+
+            # Specify the filename
+            model = model.replace(".","_")
+            filename = f"data/{model}_output.json"
+
+            # Open the file in write mode and use json.dump() to write the data
+            try:
+                with open(filename, 'w', encoding='utf-8') as f:
+                    json.dump(response, f, ensure_ascii=False, indent=4)
+                print(f"Data successfully written to {filename}")
+            except IOError as e:
+                print(f"Error writing to file {filename}: {e}")
+
+            logger.info(f"response recvd {response}")
         asyncio.run(run())
-        logger.info("Main thread waiting for shutdown...")
+    logger.info("Main thread waiting for shutdown...")
 
     try:
         while True:

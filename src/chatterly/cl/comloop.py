@@ -11,7 +11,7 @@ import janus
 
 from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.utils.logger import setup_daily_logger
-from chatterly.refree.refree import Referee
+from chatterly.eval.refree import Referee
 from chatterly.audio.audio import AudioChunk
 from chatterly.loop.cl_agent import ChatterlyCLAgent 
 from chatterly.loop.vad import BufferedVADCapture

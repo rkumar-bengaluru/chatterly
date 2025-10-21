@@ -33,7 +33,14 @@ dependencies = [
     "janus",
     "faster_whisper",
     "aiofiles",
-    "pyttsx3"
+    "pyttsx3",
+    "langchain",
+    "langchain-openai",
+    "langchain-google-genai",
+    "langchain-anthropic",
+    "langchain-groq",
+    "python-dotenv"
+
 ]
 
 [project.scripts]

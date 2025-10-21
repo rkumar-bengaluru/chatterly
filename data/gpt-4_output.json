@@ -1,0 +1,5 @@
+{
+    "score": 0.9,
+    "rationale": "The candidate correctly explains how goroutines and channels work together to facilitate concurrent programming in Go, but they only mention buffered channels and do not touch on unbuffered channels or other aspects of goroutines.",
+    "next_action": "Ask a follow-up question to clarify or redirect."
+}
