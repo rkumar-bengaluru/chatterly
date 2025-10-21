@@ -32,7 +32,8 @@ dependencies = [
     "edge_tts",
     "janus",
     "faster_whisper",
-    "aiofiles"
+    "aiofiles",
+    "pyttsx3"
 ]
 
 [project.scripts]

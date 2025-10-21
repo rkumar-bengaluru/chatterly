@@ -14,7 +14,9 @@ from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.utils.logger import setup_daily_logger
 
 class BufferedVADCapture:
-    def __init__(self,vad_queue=None,cl_queue=None, sample_rate=16000, frame_ms=30, pause_ms=1000, vad_mode=2, channels=1, speech_hold_ms=600, short_silence_min_ms=150, short_silence_max_ms=300, callback=None):
+    def __init__(self,vad_queue=None,cl_queue=None, sample_rate=16000, frame_ms=30, 
+                 pause_ms=2000, vad_mode=2, channels=1, speech_hold_ms=600, short_silence_min_ms=150, 
+                 short_silence_max_ms=300, callback=None):
         self.logger = setup_daily_logger(name=LOGGER_NAME, log_dir=LOGGER_DIR)
         if sample_rate not in [8000, 16000, 32000, 48000]:
             raise ValueError("Sample rate must be 8000, 16000, 32000, or 48000.")

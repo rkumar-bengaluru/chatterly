@@ -13,10 +13,10 @@ from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.utils.logger import setup_daily_logger
 from chatterly.refree.refree import Referee
 from chatterly.audio.audio import AudioChunk
-from chatterly.agent.agent import ChatterlyAgent 
-from chatterly.user.vad import BufferedVADCapture
+from chatterly.loop.cl_agent import ChatterlyCLAgent 
+from chatterly.loop.vad import BufferedVADCapture
 
-def launch_agent_thread(agent: ChatterlyAgent):
+def launch_agent_thread(agent: ChatterlyCLAgent):
         def thread_target():
             asyncio.run(agent.run())  # Runs the agent loop in this thread's event loop
 
@@ -45,7 +45,7 @@ class CommunicationLoop:
 
         # agent section
         self.agent_chunk = agent_chunk
-        self.agent = ChatterlyAgent(self.agent_queue,self.cl_queue)
+        self.agent = ChatterlyCLAgent(self.agent_queue,self.cl_queue)
         self.agent_thread = launch_agent_thread(self.agent)
 
         self.referee = Referee()

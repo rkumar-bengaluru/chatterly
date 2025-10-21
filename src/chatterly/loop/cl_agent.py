@@ -10,7 +10,7 @@ from chatterly.utils.constants import LOGGER_NAME
 from chatterly.utils.log_exec_time import LogExecutionTime
 from chatterly.audio.audio import AudioChunk
 
-class ChatterlyAgent:
+class ChatterlyCLAgent:
 
     def __init__(self,agent_queue,cl_queue):
         self.logger = logging.getLogger(LOGGER_NAME)
@@ -117,4 +117,3 @@ class ChatterlyAgent:
 
     async def run(self):
         await self.wait_for_messages()
-

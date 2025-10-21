@@ -1,0 +1,33 @@
+{
+    "role": "Senior Software Engineer",
+    "language": "Go",
+    "questions":[
+        {
+            "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "//task_comment": "tech question to ask",
+            "task": "how Go's goroutines and channels facilitate concurrent programming", 
+            "//status_comment": "status can vary from PENDING -> WAITING_FOR_AGENT -> WAITING_USER -> COMPLETED",
+            "status": "Pending",
+            "//answer_comment": "Answer provided by the user",
+            "answer": "",
+            "//timeout_comment": "Time within which this question answer loop must end say agent takes 30 + user takes 1 munute, then max timeout time is 90 seconds",
+            "timeout": 90, 
+            "//order_comment": "The order in which question is being asked by agent",
+            "order": 0,
+            "//llm_score": "Based on the question and the answer provided by the user, llm like gemini, llama will give a score between 0-1",
+            "llm_score": 0,
+            "//llm_response": "llm response to the question and answer",
+            "llm_response": ""
+        },
+        {
+            "id": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+            "task": "how to implement a concurrent worker pool using Go routines and channels", 
+            "status": "Pending",
+            "answer": "",
+            "timeout": 90, 
+            "order": 1,
+            "llm_score": 0,
+            "llm_response": ""
+        }
+    ]
+}

@@ -19,8 +19,8 @@ import soundfile as sf
 import numpy as np
 
 import asyncio
-from chatterly.poc.edgetts.session import SessionManager
-
+# from chatterly.poc.edgetts.session import SessionManager
+from chatterly.loop.session_manager import SessionManager
 
 def run_session_in_thread():
     loop = asyncio.new_event_loop()
@@ -48,7 +48,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent"])
+                        choices=["run", "agent", "question"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -62,8 +62,22 @@ def main():
     elif args.command == "agent":
         session_thread = threading.Thread(target=run_session_in_thread , name="SessionThread", daemon=True)
         session_thread.start()
-    
-    logger.info("Main thread waiting for shutdown...")
+    elif args.command == "question":
+        from chatterly.loop.question_queue import QuestionQueue
+        from chatterly.utils.load_json import load_json_from_file
+        file_path = "./data/go_questions.json"  # Replace with your actual file path
+        data = load_json_from_file(file_path)
+        q_queue = QuestionQueue(data)
+
+        async def run():
+            while True:
+                question = await q_queue.getNext()
+                if question is None:
+                    print("No more questions.")
+                    break
+                logger.info(f"Next Question: {question['question']}")
+        asyncio.run(run())
+        logger.info("Main thread waiting for shutdown...")
 
     try:
         while True:
