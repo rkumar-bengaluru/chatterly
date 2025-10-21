@@ -6,6 +6,7 @@
             "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
             "//task_comment": "tech question to ask",
             "task": "how Go's goroutines and channels facilitate concurrent programming", 
+            "task_wav": "local file location or cloud wav path for a question",
             "//status_comment": "status can vary from PENDING -> WAITING_FOR_AGENT -> WAITING_USER -> COMPLETED",
             "status": "Pending",
             "//answer_comment": "Answer provided by the user",
@@ -22,6 +23,7 @@
         {
             "id": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
             "task": "how to implement a concurrent worker pool using Go routines and channels", 
+            "task_wav": "local file location or cloud wav path for a question",
             "status": "Pending",
             "answer": "",
             "timeout": 90, 
