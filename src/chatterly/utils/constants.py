@@ -22,3 +22,6 @@ APP_BASE_DIR = data_base.joinpath(PUBLISHER, PRODUCT_NAME)
 APPLICATION_NAME = "chatterly"
 LOGGER_NAME = APPLICATION_NAME.lower()
 LOGGER_DIR = APP_BASE_DIR.joinpath("logs")
+
+SESSIONS_DIR = APP_BASE_DIR.joinpath("sessions")
+os.makedirs(SESSIONS_DIR, exist_ok=True)

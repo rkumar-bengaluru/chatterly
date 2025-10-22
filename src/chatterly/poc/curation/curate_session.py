@@ -9,82 +9,23 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import QDate, Qt
 from PyQt6.QtGui import QGuiApplication
 from functools import partial
-
-class QuestionDialog(QDialog):
-    def __init__(self, parent, question_data=None, index=None):
-        super().__init__(parent)
-        self.setWindowTitle("Question Page")
-        self.index = index
-
-        print(f"index to dialog = {question_data}, index = {index}")
-
-        screen = QGuiApplication.primaryScreen().geometry()
-        self.resize(screen.width() // 2, screen.height() // 2)
-
-        layout = QFormLayout()
-
-        self.question_text = QTextEdit()
-        self.question_text.setToolTip("Technical question to ask (e.g., how to implement a worker pool in Go)")
-        self.timeout_input = QSpinBox()
-        self.timeout_input.setRange(1, 9999)
-        self.timeout_input.setToolTip("Time in seconds to wait for an answer (e.g., 30, 90)")
-        self.order_input = QSpinBox()
-        self.order_input.setRange(0, 999)
-        self.order_input.setToolTip("Sequence number of the question (e.g., 0, 1, 2)")
-
-        if question_data:
-            self.question_text.setPlainText(question_data["question"])
-            self.timeout_input.setValue(question_data["timeout"])
-            self.order_input.setValue(question_data["order"])
-
-        self.save_button = QPushButton("Save")
-        self.save_button.clicked.connect(self.save_question)
-
-        layout.addRow("Question:", self.question_text)
-        layout.addRow("Timeout (seconds):", self.timeout_input)
-        layout.addRow("Order:", self.order_input)
-        layout.addRow(self.save_button)
-
-        self.setLayout(layout)
-
-    def save_question(self):
-        question = self.question_text.toPlainText().strip()
-        timeout = self.timeout_input.value()
-        order = self.order_input.value()
-
-        if not question:
-            QMessageBox.warning(self, "Validation Error", "Question cannot be empty.")
-            return
-
-        # Check for duplicate order
-        for i, q in enumerate(self.parent().interview_session["questions"]):
-            if q["order"] == order and i != self.index:
-                QMessageBox.warning(self, "Validation Error", f"Order {order} already exists.")
-                return
-
-        question_data = {
-            "question": question,
-            "timeout": timeout,
-            "order": order
-        }
-        self.index = order
-        if self.index is not None and 0 <= self.index < len(self.parent().interview_session["questions"]):
-            self.parent().interview_session["questions"][self.index] = question_data
-        else:
-            self.parent().interview_session["questions"].append(question_data)
-
-        print(self.parent().interview_session["questions"])
-
-        self.parent().refresh_question_list()
-        self.accept()
-        self.index = self.index + 1
-
-
+from PyQt6.QtWidgets import (
+    QDialog, QFormLayout, QTextEdit, QSpinBox, QPushButton,
+    QMessageBox, QHBoxLayout
+)
+from PyQt6.QtGui import QGuiApplication
+import os 
+from chatterly.poc.xttsv2.gen_voice import load_model, gen_voice
+from chatterly.utils.constants import SESSIONS_DIR
+from chatterly.utils.logger import setup_daily_logger
+from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
+from chatterly.poc.curation.dialog import QuestionDialog
 
 class InterviewApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Interview Session Manager")
+        self.logger = setup_daily_logger(name=LOGGER_NAME, log_dir=LOGGER_DIR)
         self.setStyleSheet("""
             QWidget {
                 background-color: #f0f4f8;
@@ -126,6 +67,8 @@ class InterviewApp(QWidget):
         self.layout.addWidget(self.new_session_button)
         self.layout.addWidget(self.load_session_button)
 
+        self.tts = load_model()
+
     def create_session_form(self):
         self.form_layout = QFormLayout()
 
@@ -137,8 +80,9 @@ class InterviewApp(QWidget):
         self.date_input.setCalendarPopup(True)
         self.date_input.setDate(QDate.currentDate())
         self.date_input.setToolTip("Date of the interview (stored in UTC format)")
-
+        
         self.add_question_button = QPushButton("➕ Add Question")
+        
         
 
         self.add_question_button.clicked.connect(self.open_question_dialog)
@@ -169,15 +113,13 @@ class InterviewApp(QWidget):
             "questions": []
         }
 
-        
-
     def edit_question_dialog(self, index=None):
         question_data = None
         if index is not None and 0 <= index < len(self.interview_session["questions"]):
-            print(question_data, index)
+            
             question_data = self.interview_session["questions"][index]
         else:
-            print("question set to none")
+            self.logger.info("question set to none")
             question_data = None
         dialog = QuestionDialog(self, question_data, index)
         dialog.exec()
@@ -214,7 +156,6 @@ class InterviewApp(QWidget):
         sorted_questions = sorted(indexed_questions, key=lambda pair: pair[1].get("order", 0))
 
         for _, (original_index, q) in enumerate(sorted_questions):
-            print(q)
             box = QHBoxLayout()
             label = QLabel(f"{q['order']}. {q['question'][:80]}...")
             edit_btn = QPushButton("✏️ Edit")
@@ -240,7 +181,9 @@ class InterviewApp(QWidget):
         self.interview_session["date"] = datetime.combine(date, datetime.min.time()).isoformat() + "Z"
 
         timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-        filename = f"sessions/{name.replace(' ', '_')}_{timestamp}.json"
+        
+        
+        filename = f"{self.current_session}/{name.replace(' ', '_')}_{timestamp}.json"
 
         with open(filename, "w") as f:
             json.dump(self.interview_session, f, indent=4)
@@ -248,20 +191,21 @@ class InterviewApp(QWidget):
         QMessageBox.information(self, "Session Saved", f"Session saved to {filename}")
 
     def load_session(self):
+        self.create_session_form()
         file_path, _ = QFileDialog.getOpenFileName(self, "Open Interview Session", "", "JSON Files (*.json)")
         if file_path:
             with open(file_path, "r") as f:
                 self.interview_session = json.load(f)
 
-            self.interview_name_input.setText(self.interview_session.get("Interview_Name", ""))
-            self.role_input.setText(self.interview_session.get("Role", ""))
-            date_str = self.interview_session.get("Date", "")
+            self.interview_name_input.setText(self.interview_session.get("interview_name", ""))
+            self.role_input.setText(self.interview_session.get("role", ""))
+            date_str = self.interview_session.get("date", "")
             if date_str:
                 try:
                     date_obj = datetime.fromisoformat(date_str.replace("Z", "")).date()
                     self.date_input.setDate(QDate(date_obj.year, date_obj.month, date_obj.day))
                 except Exception as e:
-                    print(f"Date parsing error: {e}")
+                    self.logger.error(f"Date parsing error: {e}")
 
             self.refresh_question_list()
 
