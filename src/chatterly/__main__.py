@@ -14,6 +14,7 @@ from pathlib import Path
 from chatterly.audio.audio import AudioChunk
 from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.utils.logger import setup_daily_logger
+from chatterly.utils.load_json import load_json_from_file
 
 import soundfile as sf
 import numpy as np
@@ -28,7 +29,7 @@ async def run_evaluator():
     model = "gemini-2.0-flash"
     evaluator = await get_gemini_evaluator()
     question = "how Go's goroutines and channels facilitate concurrent programming"
-    answer = "What is the weather in chicogo today?"
+    answer = "Go uses buffered and unbuffered channels to hand over data between go routines, a producer go routine sends data to the channel and consumer consumes it, if the consumer is not ready then the producer waits, which allows the go scheduler to context switch between other waiting go routines to support concurrency?"
     response = await evaluator.evaluate(question=question, answer=answer)
 
     # Specify the filename
@@ -69,7 +70,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent", "llm", "xttsv2","curate","playai"])
+                        choices=["run", "agent", "llm", "xttsv2","curate","playai","email"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -108,7 +109,12 @@ def main():
         window.show()
         sys.exit(app.exec())
         logger.info(f"generated file in {path}")
-
+    elif args.command == "email":
+        from chatterly.poc.report.report import InterviewReport
+        # load data
+        data = load_json_from_file("./data/consolidate.json")
+        ir = InterviewReport(data)
+        ir.send_email_report()
 
     logger.info("Main thread waiting for shutdown...")
 

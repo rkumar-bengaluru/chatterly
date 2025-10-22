@@ -87,7 +87,7 @@ class SessionManager:
     #     while not temp_queue.empty():
     #         await self.interaction_queue.put(await temp_queue.get())
 
-
+    
     async def run(self):
         self.logger.info("[SessionManager] Starting session")
         start_time = datetime.now()
@@ -143,6 +143,7 @@ def run_session_in_thread():
     asyncio.set_event_loop(loop)
     loop.run_until_complete(SessionManager().run())
     loop.close()
+    
 
 def run_main():
     session_thread = threading.Thread(target=run_session_in_thread)

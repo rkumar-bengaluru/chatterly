@@ -1,0 +1,33 @@
+{
+    "interview_name": "Python Interview",
+    "role": "Junior Developer",
+    "date": "2025-10-22T00:00:00Z",
+    "user_email": "rupak.kumar.ambasta02@gmail.com",
+    "recording": "https://jsonformatter.org/",
+    "questions": [
+        {
+            "id": "abbec480-6a20-4671-8769-4a6038b25c55",
+            "question": "Explain garbage collection in python",
+            "user_answer": "Garbage collection in Python is an automatic memory management process that identifies and reclaims memory occupied by objects that are no longer in use by the program. This process helps prevent memory leaks and optimizes memory usage, freeing developers from manual memory deallocation",
+            "timeout": 30,
+            "weight": 0.2,
+            "order": 0,
+            "wav_file": "C:\\Users\\Rupak\\AppData\\Roaming\\NeuroProxy\\Chatterly\\sessions\\Python_Interview/audio_b25c55.wav",
+            "score": 0.8,
+            "rationale": "The candidate demonstrates a good understanding of how goroutines and channels facilitate concurrent programming in Go, highlighting the use of buffered channels for safe data sharing and the role of the Go scheduler in achieving concurrency. However, the answer is somewhat brief and lacks specific examples or deeper technical details.",
+            "next_action": "Ask a follow-up question to clarify or redirect."
+        },
+        {
+            "id": "c1387a1a-8f3b-4202-a198-8bbbb39264cd",
+            "question": "What is GIL and how does it impacts parallism in python?",
+            "user_answer": "The Global Interpreter Lock (GIL) is a mutex (mutual exclusion lock) in CPython, the standard implementation of Python, that ensures only one thread can execute Python bytecode at a time, even on multi-core processors. This means that while multiple threads can exist within a Python program, only one thread can actively run Python code at any given instant",
+            "timeout": 30,
+            "weight": 0.8,
+            "order": 1,
+            "wav_file": "C:\\Users\\Rupak\\AppData\\Roaming\\NeuroProxy\\Chatterly\\sessions\\Python_Interview/audio_9264cd.wav",
+            "score": 0.6,
+            "rationale": "The candidate demonstrates a good understanding of how goroutines and channels facilitate concurrent programming in Go, highlighting the use of buffered channels for safe data sharing and the role of the Go scheduler in achieving concurrency. However, the answer is somewhat brief and lacks specific examples or deeper technical details.",
+            "next_action": "Ask a follow-up question to clarify or redirect."
+        }
+    ]
+}
