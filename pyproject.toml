@@ -39,7 +39,8 @@ dependencies = [
     "langchain-google-genai",
     "langchain-anthropic",
     "langchain-groq",
-    "python-dotenv"
+    "python-dotenv",
+    "PyQt6"
 
 ]
 

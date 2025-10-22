@@ -69,7 +69,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent", "llm", "xttsv2"])
+                        choices=["run", "agent", "llm", "xttsv2","curate","playai"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -93,6 +93,22 @@ def main():
 
         path = generate_speech_xttsv2(text, reference_audio,output_path=output_path)
         logger.info(f"generated file in {path}")
+    elif args.command == "playai":
+        from chatterly.poc.groq.groq import generate_playai_tts
+        output_path = "./samples/output.wav"
+        text = "Hello Rupak, The candidate demonstrates a good understanding of how goroutines and channels facilitate concurrent programming in Go"
+        reference_audio = "./recording_1760540826.wav"
+
+        path = generate_playai_tts(text, output_path=output_path)
+        logger.info(f"generated file in {path}")
+    elif args.command == "curate":
+        from chatterly.poc.curation.curate_session import QApplication,InterviewApp
+        app = QApplication(sys.argv)
+        window = InterviewApp()
+        window.show()
+        sys.exit(app.exec())
+        logger.info(f"generated file in {path}")
+
 
     logger.info("Main thread waiting for shutdown...")
 
