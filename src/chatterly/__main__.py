@@ -12,7 +12,7 @@ import threading
 from chatterly.cl.commgr import CommunicationLoopMgr
 from pathlib import Path
 from chatterly.audio.audio import AudioChunk
-from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
+from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR, SESSIONS_DIR
 from chatterly.utils.logger import setup_daily_logger
 from chatterly.utils.load_json import load_json_from_file
 
@@ -70,7 +70,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent", "llm", "xttsv2","curate","playai","email"])
+                        choices=["run", "agent", "llm", "xttsv2","curate","playai","email","session"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -113,8 +113,14 @@ def main():
         from chatterly.poc.report.report import InterviewReport
         # load data
         data = load_json_from_file("./data/consolidate.json")
-        ir = InterviewReport(data)
-        ir.send_email_report()
+        ir = InterviewReport()
+        ir.send_email_report(data)
+    elif args.command == "session":
+        from chatterly.loop.scheduler import Scheduler
+        # load data
+        data = load_json_from_file(f"{SESSIONS_DIR}/Python_Interview/Python_Interview_20251022072043.json")
+        sch = Scheduler()
+        sch.create_new_session("rupak.kumar.ambasta02@gmail.com", data)
 
     logger.info("Main thread waiting for shutdown...")
 

@@ -10,20 +10,20 @@ from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 
 class InterviewReport:
 
-    def __init__(self, data):
-        self.data = data 
+    def __init__(self):
         self.host = "smtp.gmail.com"
         self.port = 465
         self.sender = "rupak.kumar.ambasta@gmail.com"
-        self.reciepient = data["user_email"]
+        
         self.logger = setup_daily_logger(name=LOGGER_NAME, log_dir=LOGGER_DIR)
 
-    def send_email_report(self):
-        self.html_content = self.generate_html_report()
+    def send_email_report(self, interview_data):
+        self.html_content = self.generate_html_report(interview_data)
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = f"Your {self.data['interview_name']} for role {self.data['role']} on date {self.data['date']} is Ready"
+        msg["Subject"] = f"Your {interview_data['interview_name']} for role {interview_data['role']} on date {interview_data['date']} is Ready"
         msg["From"] = self.sender
-        msg["To"] = self.reciepient
+
+        self.reciepient = interview_data["user_email"]
         msg.attach(MIMEText(self.html_content, "html"))
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
@@ -32,8 +32,7 @@ class InterviewReport:
             self.logger.info(f"Email sent to {self.reciepient}")
 
 
-    def generate_html_report(self):
-        interview_data = self.data 
+    def generate_html_report(self, interview_data):
         user = interview_data["user_email"]
         role = interview_data["role"]
         date = interview_data["date"]

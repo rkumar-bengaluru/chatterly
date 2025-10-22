@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 import uuid
 from chatterly.utils.logger import setup_daily_logger
-from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
+from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR, WHISPER_MODEL_PATH
 from chatterly.loop.state import AgentUserInteractionState
 
 import time 
@@ -18,7 +18,7 @@ import os
 import webrtcvad
 import io
 import wave
-
+import pdb 
 from chatterly.utils.log_exec_time import LogExecutionTime
 
 class User:
@@ -67,10 +67,10 @@ class User:
         self.max_frames = int((self.max_duration_s * 1000) // frame_ms)
         self.frame_ms=30
         self.max_duration = self.max_frames * (self.frame_ms / 1000)
-
-         # Initialize faster-whisper model
+        # Initialize faster-whisper model
         try:
-            self.whisper_model = WhisperModel("small.en", compute_type="auto")
+            # Use the full path to the snapshot directory
+            self.whisper_model = WhisperModel(WHISPER_MODEL_PATH, compute_type="auto")
             self.logger.info("whisper_model_loaded")
         except Exception as e:
             raise RuntimeError(f"Failed to load faster-whisper model: {e}")
@@ -320,6 +320,7 @@ class User:
                     # response = await self.capture_response(task_id, 0)
                     response = await self.capture_and_transcribe()
                     self.session_manager.status[task_id]["answer"] = response 
+                    await self.session_manager.update_answer(task_id,response)
                     self.session_manager.state[task_id] = AgentUserInteractionState.COMPLETED
                     self.session_manager.status[task_id]["status"] = AgentUserInteractionState.COMPLETED
                 self.session_manager.interaction_queue.task_done()

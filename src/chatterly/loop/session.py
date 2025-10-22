@@ -16,9 +16,9 @@ from chatterly.loop.user import User
 from chatterly.loop.context import TaskContext
 import pdb
 
-class SessionManager:
-    def __init__(self, session_timeout = 1):
-        
+class SchedulerSessionManager:
+    def __init__(self, notification_queue, active_session,filename, session_timeout = 1):
+        self.notification_queue = notification_queue
         self.question_queue = asyncio.Queue()
         self.interaction_queue = asyncio.Queue()
         self.status = {}
@@ -33,28 +33,35 @@ class SessionManager:
         self.session_timeout = session_timeout
         self.user = User(self)
 
-        file_path = "./data/go_questions.json"  # Replace with your actual file path
-        data = load_json_from_file(file_path)
-        self.q_queue = QuestionQueue(data)
-        self.logger.info("session...")
-        print("----------")
+        self.active_session_data = active_session
+        self.q_queue = QuestionQueue(self.active_session_data)
+        self.filename = filename
     
+
+    async def update_answer(self, qid, answer):
+        self.logger.info(f"answer recvd for question {qid}")
+        for question in self.active_session_data["questions"]:
+            self.logger.info(f"comparing {qid} with {question['id']}")
+            if question["id"].strip() == qid.strip():
+                question["user_answer"] = answer 
+                question["status"] = "Pending_Score" 
 
     def info(self):
         self.logger.info(f"session manager started with agent & timeout={self.session_timeout}")
 
     async def producer(self):
         question = await self.q_queue.getNext()
+        self.logger.info(f"recvd question {question}")
         if question is None:
             return None
         task_id = question["id"]
-        task = TaskContext(question.get("task"), 
+        task = TaskContext(question.get("question"), 
                            question.get("timeout"), 
                            question.get("order"),
                            AgentUserInteractionState.WAITING_FOR_AGENT)
         await self.question_queue.put((task_id, task))
         self.status[task_id] = {
-            "question": question.get("task"),
+            "question": question.get("question"),
             "status": AgentUserInteractionState.WAITING_FOR_AGENT,
             "answer": None,
             "timeout": question.get("timeout"),
@@ -64,35 +71,6 @@ class SessionManager:
         self.state[task_id] = AgentUserInteractionState.WAITING_FOR_AGENT
         return task_id
         
-        # questions = [
-        #     {"id": str(uuid.uuid4()), "question": "How does threading differ from asyncio?", "timeout": 10, "order": 0},
-        # ]
-        # for q in questions:
-        #     task_id = q["id"]
-        #     task = TaskContext(q["question"], q["timeout"], q["order"],AgentUserInteractionState.WAITING_FOR_AGENT)
-        #     await self.question_queue.put((task_id, task))
-        #     self.status[task_id] = {
-        #         "question": q["question"],
-        #         "status": AgentUserInteractionState.WAITING_FOR_AGENT,
-        #         "answer": None,
-        #         "timeout": q["timeout"],
-        #         "order": q["order"]
-        #     }
-            
-        #     self.state[task_id] = AgentUserInteractionState.WAITING_FOR_AGENT
-        # self.logger.info("[Producer] All questions loaded into queue.")
-
-    # async def clear_interaction_queue(self, task_id):
-    #     temp_queue = asyncio.Queue()
-    #     while not self.interaction_queue.empty():
-    #         message_type, msg_task_id, data = await self.interaction_queue.get()
-    #         if msg_task_id != task_id:
-    #             await temp_queue.put((message_type, msg_task_id, data))
-    #         self.interaction_queue.task_done()
-    #     while not temp_queue.empty():
-    #         await self.interaction_queue.put(await temp_queue.get())
-
-    
     async def run(self):
         self.logger.info("[SessionManager] Starting session")
         start_time = datetime.now()
@@ -138,7 +116,7 @@ class SessionManager:
             self.logger.info("[SessionManager] User task cancelled.")
         
         self.executor.shutdown(wait=True)
-        print(self.status.items())
+        self.notification_queue.put((self.filename,self.active_session_data))
         self.logger.info("[SessionManager] Final status summary:")
         for task_id, info in sorted(self.status.items(), key=lambda x: x[1]["order"]):
             self.logger.info(f"  Q{task_id[-4:]}: {info['status']} ({info['question']}) with {info['answer']} subtasks")
@@ -146,7 +124,7 @@ class SessionManager:
 def run_session_in_thread():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(SessionManager().run())
+    loop.run_until_complete(SchedulerSessionManager().run())
     loop.close()
     
 
