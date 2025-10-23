@@ -70,7 +70,7 @@ def main():
     )
     parser.add_argument("command", 
                         help="you need to provide either run",
-                        choices=["run", "agent", "llm", "xttsv2","curate","playai","email","session"])
+                        choices=["run", "agent", "llm", "xttsv2","curate","playai","email","session","meet"])
     
     # ---- manual split for read_email ----
     args = parser.parse_args()
@@ -121,6 +121,14 @@ def main():
         data = load_json_from_file(f"{SESSIONS_DIR}/Python_Interview/Python_Interview_20251022072043.json")
         sch = Scheduler()
         sch.create_new_session("rupak.kumar.ambasta02@gmail.com", data)
+    elif args.command == "meet":
+        from chatterly.poc.meet.imeet import MainWindow
+        from PyQt6.QtWidgets import QApplication
+        # load data
+        app = QApplication(sys.argv)
+        window = MainWindow()
+        window.show()
+        sys.exit(app.exec())
 
     logger.info("Main thread waiting for shutdown...")
 

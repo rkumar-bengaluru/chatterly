@@ -40,7 +40,9 @@ dependencies = [
     "langchain-anthropic",
     "langchain-groq",
     "python-dotenv",
-    "PyQt6"
+    "PyQt6",
+    "opencv-python",
+    "pyaudio"
 
 ]
 
