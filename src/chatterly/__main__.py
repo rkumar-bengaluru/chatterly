@@ -119,8 +119,8 @@ def main():
         from chatterly.loop.scheduler import Scheduler
         # load data
         data = load_json_from_file(f"{SESSIONS_DIR}/Python_Interview/Python_Interview_20251022072043.json")
-        sch = Scheduler()
-        sch.create_new_session("rupak.kumar.ambasta02@gmail.com", data)
+        sch = Scheduler(data)
+        sch.create_new_session("rupak.kumar.ambasta02@gmail.com")
     elif args.command == "meet":
         from chatterly.poc.meet.imeet import MainWindow
         from PyQt6.QtWidgets import QApplication

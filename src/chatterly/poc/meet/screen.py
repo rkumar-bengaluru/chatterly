@@ -10,6 +10,7 @@ from PyQt6.QtGui import QImage, QPixmap, QFont
 from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import QPropertyAnimation
+from chatterly.loop.scheduler import Scheduler
 
 class MockMeetScreen(QWidget):
     def __init__(self, metadata, stacked_widget):
@@ -19,11 +20,12 @@ class MockMeetScreen(QWidget):
         self.cap = cv2.VideoCapture(0)
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)
 
         self.audio_active = False
         self.audio_level = 0
         self.session_start_time = None
-        self.countdown_seconds = 3
+        self.countdown_seconds = 5
         self.recording = False
         self.video_writer = None
         self.audio_frames = []
@@ -31,6 +33,9 @@ class MockMeetScreen(QWidget):
 
         self.init_ui()
         self.start_countdown()
+        self.session_timeout = metadata["session_timeout"]
+        self.scheduler = Scheduler(metadata,self.session_timeout)
+        
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -69,8 +74,9 @@ class MockMeetScreen(QWidget):
         self.setLayout(layout)
 
         self.session_timer = QTimer()
-        self.session_timer.timeout.connect(self.update_timer)
-
+        self.session_timer.timeout.connect(self.update_timer)  # ← This is critical
+        self.session_start_time = time.time()
+        self.session_timer.start(1000)  # 1-second interval
 
 
     def start_countdown(self):
@@ -85,10 +91,17 @@ class MockMeetScreen(QWidget):
         else:
             self.countdown_label.setText("")
             self.countdown_timer.stop()
-            self.session_start_time = time.time()
-            self.timer.start(30)
-            self.session_timer.start(1000)
+
+            # Start both audio and video in sync
+            self.start_recording()
             self.start_audio_monitor()
+
+            self.session_start_time = time.time()
+            
+            self.session_timer.start(1000)
+            
+            self.scheduler.create_new_session("rupak.kumar.ambasta02@gmail.com")
+
 
     def update_frame(self):
         ret, frame = self.cap.read()
@@ -104,9 +117,14 @@ class MockMeetScreen(QWidget):
                 self.video_writer.write(frame)
 
     def update_timer(self):
-        elapsed = int(time.time() - self.session_start_time)
-        minutes, seconds = divmod(elapsed, 60)
-        self.timer_label.setText(f"⏱️ Session Time: {minutes:02}:{seconds:02}")
+        
+        remaining = max(0, self.session_timeout - int(time.time() - self.session_start_time))
+        minutes, seconds = divmod(remaining, 60)
+        self.timer_label.setText(f"⏱️ Time Left: {minutes:02}:{seconds:02}")
+
+        if remaining == 0:
+            self.close_session()
+
 
     def start_audio_monitor(self):
         def monitor():
@@ -133,19 +151,51 @@ class MockMeetScreen(QWidget):
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
             self.video_writer = cv2.VideoWriter("interview_video.avi", fourcc, 20.0, (640, 480))
             self.audio_frames = []
+            
 
     def combine_audio_video(self, video_path, audio_path, output_path):
         cmd = [
             "ffmpeg",
-            "-y",  # Overwrite if exists
+            "-y",  # Overwrite output file if it exists
+
+            # Input video
             "-i", video_path,
+
+            # Input audio
             "-i", audio_path,
+
+            # Force video frame rate (match your OpenCV capture rate)
+            "-r", "30",
+
+            # Trim to shortest stream to avoid drift
+            "-shortest",
+
+            # Encode video and audio
             "-c:v", "libx264",
+            "-preset", "fast",
             "-c:a", "aac",
-            "-strict", "experimental",
+            "-b:a", "192k",
+
+            # Optional: sync audio start if needed
+            "-itsoffset", "0.2", "-i", audio_path,  # Uncomment if audio lags
+
             output_path
         ]
         subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+
+    # def combine_audio_video(self, video_path, audio_path, output_path):
+    #     cmd = [
+    #         "ffmpeg",
+    #         "-y",  # Overwrite if exists
+    #         "-i", video_path,
+    #         "-i", audio_path,
+    #         "-c:v", "libx264",
+    #         "-c:a", "aac",
+    #         "-strict", "experimental",
+    #         output_path
+    #     ]
+    #     subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def close_session(self):
         self.timer.stop()

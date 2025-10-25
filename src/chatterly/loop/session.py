@@ -74,7 +74,7 @@ class SchedulerSessionManager:
     async def run(self):
         self.logger.info("[SessionManager] Starting session")
         start_time = datetime.now()
-        timeout = timedelta(minutes=self.session_timeout)
+        timeout = timedelta(seconds=self.session_timeout)
         
         self.logger.info("[SessionManager] starting agent...")
         agent_task = asyncio.create_task(self.agent.run())

@@ -24,18 +24,22 @@ def run_notification_in_thread(notification_engine):
 
 class Scheduler:
 
-    def create_new_session(self,user_email, interview_session):
+    def __init__(self, interview_session, session_timeout):
+        self.interview_session = interview_session
+        self.session_timeout = session_timeout
+
+    def create_new_session(self,user_email):
 
         # create meta data for this session for the user.
-        interview_name = interview_session["interview_name"].replace(' ', '_')
-        role = interview_session["role"].replace(' ', '_')
+        interview_name = self.interview_session["interview_name"].replace(' ', '_')
+        role = self.interview_session["role"].replace(' ', '_')
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         user_session = SESSIONS_DIR.joinpath(interview_name).joinpath(user_email)
         os.makedirs(user_session, exist_ok=True)
         filename = f"{user_session}/{role}_{timestamp}.json"
         # meta data done.
         questions = []
-        for question in interview_session["questions"]:
+        for question in self.interview_session["questions"]:
             tmp_question = {
                 "id": question["id"],
                 "question": question["question"],
@@ -51,8 +55,8 @@ class Scheduler:
             questions.append(tmp_question)
         utc_today = datetime.now(timezone.utc).date()
         active_session = {
-            "interview_name": interview_session["interview_name"],
-            "role": interview_session["role"],
+            "interview_name": self.interview_session["interview_name"],
+            "role": self.interview_session["role"],
             "date": utc_today.strftime('%Y-%m-%d'),
             "user_email": user_email,
             "recording": "",
@@ -64,7 +68,8 @@ class Scheduler:
         notification_queue = queue.Queue()
         app_shutdown_event = threading.Event()
 
-        session_mgr = SchedulerSessionManager(notification_queue, active_session ,filename)
+        session_mgr = SchedulerSessionManager(notification_queue, active_session ,
+                                              filename,session_timeout=self.session_timeout)
         session_thread = threading.Thread(target=run_session_in_thread , 
                                                args=(session_mgr,),
                                                name="SessionThread", daemon=True)
