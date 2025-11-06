@@ -20,6 +20,7 @@ from chatterly.utils.constants import SESSIONS_DIR
 from chatterly.utils.logger import setup_daily_logger
 from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.poc.curation.dialog import QuestionDialog
+import base64
 
 class InterviewApp(QWidget):
     def __init__(self):
@@ -67,6 +68,27 @@ class InterviewApp(QWidget):
         self.layout.addWidget(self.new_session_button)
         self.layout.addWidget(self.load_session_button)
 
+        self.DEFAULT_AVATARS = [
+            {
+                "name": "Rupak",
+                "description": "Strategic architect with deep Python insights and real-world debugging wisdom.",
+                "voice_style": "calm and analytical",
+                "image_url": "/avatars/rupak.jpg"
+            },
+            {
+                "name": "Modi",
+                "description": "Visionary leader with a motivational tone and structured delivery.",
+                "voice_style": "inspirational and assertive",
+                "image_url": "/avatars/modi.webp"
+            },
+            {
+                "name": "Trump",
+                "description": "Bold communicator with a direct, high-energy style.",
+                "voice_style": "confident and persuasive",
+                "image_url": "/avatars/trump.webp"
+            }
+        ]
+
         self.tts = load_model()
 
     def create_session_form(self):
@@ -80,11 +102,13 @@ class InterviewApp(QWidget):
         self.date_input.setCalendarPopup(True)
         self.date_input.setDate(QDate.currentDate())
         self.date_input.setToolTip("Date of the interview (stored in UTC format)")
+        self.session_timeout_input = QLineEdit()
+        self.session_timeout_input.setToolTip("Session Timeout")
+
+        self.evaluation_query_input = QTextEdit()
         
         self.add_question_button = QPushButton("➕ Add Question")
         
-        
-
         self.add_question_button.clicked.connect(self.open_question_dialog)
 
         self.save_session_button = QPushButton("💾 Save Session")
@@ -93,6 +117,8 @@ class InterviewApp(QWidget):
         self.form_layout.addRow("Interview Name:", self.interview_name_input)
         self.form_layout.addRow("Role:", self.role_input)
         self.form_layout.addRow("Date of Interview:", self.date_input)
+        self.form_layout.addRow("Session Timeout:", self.session_timeout_input)
+        self.form_layout.addRow("Evaluation Query:", self.evaluation_query_input)
         self.form_layout.addRow(self.add_question_button)
         self.form_layout.addRow(self.save_session_button)
 
@@ -107,9 +133,12 @@ class InterviewApp(QWidget):
         scroll.setWidget(self.question_group)
         self.layout.addWidget(scroll)
         self.interview_session = {
-            "interview_name": "",
+            "test_name": "",
             "role": "",
             "date": "",
+            "session_timeout": 60,
+            "evaluation_query": "",
+            "avatars": self.DEFAULT_AVATARS,
             "questions": []
         }
 
@@ -125,27 +154,29 @@ class InterviewApp(QWidget):
         dialog.exec()
 
     def open_question_dialog(self, index=None):
-        question_data = None
-        index = len(self.interview_session["questions"])
-        if index == 0:
-            question_data = {
-                "question": "",
-                "timeout": 30,
-                "order": 0
-            }
-        else:
-            # Compute next available order
-            existing_orders = [q["order"] for q in self.interview_session["questions"]]
-            next_order = max(existing_orders) + 1 if existing_orders else 0
-            question_data = {
-                "question": "",
-                "timeout": 30,
-                "order": next_order
-            }
+        # Determine the new total number of questions (including the one being added)
+        total_questions = len(self.interview_session["questions"]) + 1
+        equal_weight = 1 / total_questions
 
-        dialog = QuestionDialog(self, question_data, index)
+        # Update weights of existing questions
+        for q in self.interview_session["questions"]:
+            q["weight"] = equal_weight
+
+        # Compute next order
+        existing_orders = [q["order"] for q in self.interview_session["questions"]]
+        next_order = max(existing_orders) + 1 if existing_orders else 0
+
+        # Prepare new question data
+        question_data = {
+            "question": "",
+            "timeout": 20,
+            "order": next_order,
+            "weight": equal_weight
+        }
+
+        # Launch dialog
+        dialog = QuestionDialog(self, question_data, total_questions - 1)
         dialog.exec()
-
 
 
     def refresh_question_list(self):
@@ -170,15 +201,20 @@ class InterviewApp(QWidget):
     def save_session(self):
         name = self.interview_name_input.text().strip()
         role = self.role_input.text().strip()
+        session_timeout_input = self.session_timeout_input.text().strip()
+        evaluation_query = self.evaluation_query_input.toPlainText().strip()
+        encoded_query = base64.b64encode(evaluation_query.encode("utf-8")).decode("utf-8")
 
         if not name or not role:
             QMessageBox.warning(self, "Validation Error", "Interview Name and Role are required.")
             return
 
-        self.interview_session["interview_name"] = name
+        self.interview_session["test_name"] = name
         self.interview_session["role"] = role
         date = self.date_input.date().toPyDate()
         self.interview_session["date"] = datetime.combine(date, datetime.min.time()).isoformat() + "Z"
+        self.interview_session["session_timeout"] = session_timeout_input
+        self.interview_session["evaluation_query"] = encoded_query
 
         timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
         

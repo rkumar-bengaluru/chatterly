@@ -1,0 +1,71 @@
+{
+    "test_name": "Introduce Yourself",
+    "role": "Self Introducftion",
+    "date": "2025-11-05T00:00:00Z",
+    "session_timeout": "300",
+    "evaluation_query": "WW91IGFyZSBhIHNlbmlvciBHbyBlbmdpbmVlciBjb25kdWN0aW5nIGEgdGVjaG5pY2FsIGludGVydmlldy4gWW914oCZdmUgYmVlbiBnaXZlbjoKCgotIEEgcXVlc3Rpb24gYXNrZWQgYnkgdGhlIGFnZW50Ci0gQW4gYW5zd2VyIHRyYW5zY3JpYmVkIGZyb20gdGhlIGNhbmRpZGF0ZeKAmXMgdm9pY2UgcmVjb3JkaW5nIHVzaW5nIEZhc3Rlci1XaGlzcGVyCgoKWW91ciB0YXNrIGlzIHRvOgoxLiBBbmFseXplIHRoZSBhbnN3ZXIgaW4gZGV0YWlsIGZvciByZWxldmFuY2UsIGNvcnJlY3RuZXNzLCBhbmQgY29tcGxldGVuZXNzLgoyLiBTY29yZSB0aGUgYW5zd2VyIGJldHdlZW4gMCBhbmQgMToKICAgLSAxLjAg4oaSIFBlcmZlY3RseSByZWxldmFudCwgdGVjaG5pY2FsbHkgc291bmQsIGFuZCBjb21wbGV0ZS4KICAgLSAwLjXigJMwLjkg4oaSIFBhcnRpYWxseSByZWxldmFudCBvciBpbmNvbXBsZXRlLCBidXQgc2hvd3MgdW5kZXJzdGFuZGluZy4KICAgLSA8IDAuNSDihpIgTW9zdGx5IGlycmVsZXZhbnQsIGluY29ycmVjdCwgb3Igb2ZmLXRvcGljLgoKClVzZSB5b3VyIGp1ZGdtZW50IGFzIGEgR28gZXhwZXJ0LiBJZiB0aGUgYW5zd2VyIGlzIG9mZi10b3BpYyAoZS5nLiwgdGhlIHF1ZXN0aW9uIGlzIGFib3V0IGdvcm91dGluZXMgYW5kIHRoZSBjYW5kaWRhdGUgdGFsa3MgYWJvdXQgd2VhdGhlciksIGFzc2lnbiBhIHNjb3JlIG9mIDAuCgoKUmVzcG9uZCAqKm9ubHkqKiB3aXRoIGEgdmFsaWQgSlNPTiBvYmplY3QgY29udGFpbmluZyB0aGUgZm9sbG93aW5nIGtleXM6Ci0gInNjb3JlIjogYSBmbG9hdCBiZXR3ZWVuIDAgYW5kIDEKLSAicmF0aW9uYWxlIjogYSBjb25jaXNlIDHigJMzIHNlbnRlbmNlIGV4cGxhbmF0aW9uIG9mIHlvdXIgc2NvcmluZwotICJuZXh0X2FjdGlvbiI6IGVpdGhlciAiQXNrIGEgZm9sbG93LXVwIHF1ZXN0aW9uIHRvIGNsYXJpZnkgb3IgcmVkaXJlY3QuIiBvciAiQWNjZXB0IHRoZSBhbnN3ZXIgYW5kIHByb2NlZWQgdG8gdGhlIG5leHQgcXVlc3Rpb24uIgotICJmb2xsb3d1cF9xdWVzdGlvbiI6IGJhc2VkIG9uIHRoZSBhbnN3ZXIgZnJvbSB1c2VyLCBwcm92aWRlIGEgZm9sb3cgdXAgcXVlc3Rpb24uCgoKRG8gbm90IGluY2x1ZGUgYW55IG90aGVyIHRleHQsIG1hcmtkb3duLCBvciBmb3JtYXR0aW5nLiBFbnN1cmUgdGhlIG91dHB1dCBpcyBwYXJzZWFibGUgSlNPTi4KCgojIyMgSW5wdXQ6ClF1ZXN0aW9uOiB7cXVlc3Rpb259CgoKVHJhbnNjcmliZWQgQW5zd2VyOiB7YW5zd2VyfQoKCiMjIyBPdXRwdXQgKEpTT04pOg==",
+    "avatars": [
+        {
+            "name": "Rupak",
+            "description": "Strategic architect with deep Python insights and real-world debugging wisdom.",
+            "voice_style": "calm and analytical",
+            "image_url": "/avatars/rupak.jpg"
+        },
+        {
+            "name": "Modi",
+            "description": "Visionary leader with a motivational tone and structured delivery.",
+            "voice_style": "inspirational and assertive",
+            "image_url": "/avatars/musk.webp"
+        },
+        {
+            "name": "Trump",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/trump.webp"
+        }
+    ],
+    "questions": [
+        {
+            "id": "f23e871b-a99e-456d-a402-647c9c47d90e",
+            "question": "What\u2019s the biggest challenge you\u2019ve faced working remotely?",
+            "timeout": 20,
+            "order": 0,
+            "weight": 0.166
+        },
+        {
+            "id": "4468b03e-4301-482c-8ed1-e0f9ea24c408",
+            "question": "What do you feel you are exceptionally good at - and what could you teach the team",
+            "timeout": 20,
+            "order": 1,
+            "weight": 0.166
+        },
+        {
+            "id": "3d39b43f-2804-41e1-a317-c0cbbc3b44bb",
+            "question": "What are you looking for in your next role",
+            "timeout": 20,
+            "order": 2,
+            "weight": 0.166
+        },
+        {
+            "id": "7ccc3856-1797-4261-a2e5-c4445125d061",
+            "question": "What features would you like to implement in your first month",
+            "timeout": 20,
+            "order": 3,
+            "weight": 0.166
+        },
+        {
+            "id": "97b2039e-b66e-4830-bfcc-0f4174a61e34",
+            "question": "What do you like to do outside of work",
+            "timeout": 20,
+            "order": 4,
+            "weight": 0.166
+        },
+        {
+            "id": "4b38f071-5ee0-4f31-887f-e7f17c2c8987",
+            "question": "What about Amondo excites you",
+            "timeout": 20,
+            "order": 5,
+            "weight": 0.166
+        }
+    ]
+}
