@@ -49,6 +49,8 @@ class QuestionDialog(QDialog):
         self.question_id = str(uuid.uuid4())
         self.question_text = QTextEdit()
         self.question_text.setToolTip("Technical question to ask (e.g., how to implement a worker pool in Go)")
+        self.answer_text = QTextEdit()
+        self.answer_text.setToolTip("Write the answer as you deem fit.")
         self.timeout_input = QSpinBox()
         self.timeout_input.setRange(1, 9999)
         self.timeout_input.setToolTip("Time in seconds to wait for an answer (e.g., 30, 90)")
@@ -65,7 +67,12 @@ class QuestionDialog(QDialog):
         # self.weight_input.setToolTip("Weight of the question (between 0-1)")
 
         if question_data:
+            answer = question_data["answer"]
+            if answer != "":
+                answer = base64.b64decode(answer)
+                answer = answer.decode("utf-8")
             self.question_text.setPlainText(question_data["question"])
+            self.answer_text.setPlainText(answer)
             self.timeout_input.setValue(question_data["timeout"])
             self.order_input.setValue(question_data["order"])
             self.weight_input.setValue(question_data["weight"])
@@ -83,6 +90,7 @@ class QuestionDialog(QDialog):
 
         # Layout
         layout.addRow("Question:", self.question_text)
+        layout.addRow("Answer:", self.answer_text)
         layout.addRow("Timeout (seconds):", self.timeout_input)
         layout.addRow("Order:", self.order_input)
         layout.addRow("Weight:", self.weight_input)
@@ -109,6 +117,7 @@ class QuestionDialog(QDialog):
             {"avatar_name": "Rupak", "reference_audio_path": "./recording_rupak.wav"},
             {"avatar_name": "Trump",   "reference_audio_path": "./recording_trump.wav"},
             {"avatar_name": "Musk", "reference_audio_path": "./recording_musk.wav"},
+            {"avatar_name": "Bachchan", "reference_audio_path": "./recording_bachchan.wav"},
         ]
 
         total_avatars = len(avatar_map)
@@ -212,6 +221,7 @@ class QuestionDialog(QDialog):
 
     def save_question(self):
         question = self.question_text.toPlainText().strip()
+        answer = self.answer_text.toPlainText().strip()
         timeout = self.timeout_input.value()
         order   = self.order_input.value()
 
@@ -267,9 +277,11 @@ class QuestionDialog(QDialog):
                 })
 
         # ---- final question payload ------------------------------------------------
+        encoded_answer = base64.b64encode(answer.encode("utf-8")).decode("utf-8")
         question_data = {
             "id": self.question_id,
             "question": question,
+            "answer": encoded_answer,
             "timeout": timeout,
             "order": order,                             # <-- new structure
             "weight": self.weight_input.value()

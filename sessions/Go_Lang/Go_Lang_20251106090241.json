@@ -1,0 +1,62 @@
+{
+    "id": "a557480f-0e0d-4919-bff9-5467ba47431c",
+    "test_name": "Go Lang",
+    "role": "Senior Developer",
+    "date": "2025-11-06T00:00:00Z",
+    "session_timeout": "300",
+    "evaluation_query": "WW91IGFyZSBhIHNlbmlvciBHbyBlbmdpbmVlciBjb25kdWN0aW5nIGEgdGVjaG5pY2FsIGludGVydmlldy4gWW914oCZdmUgYmVlbiBnaXZlbjoKCgotIEEgcXVlc3Rpb24gYXNrZWQgYnkgdGhlIGFnZW50Ci0gQW4gYW5zd2VyIHRyYW5zY3JpYmVkIGZyb20gdGhlIGNhbmRpZGF0ZeKAmXMgdm9pY2UgcmVjb3JkaW5nIHVzaW5nIEZhc3Rlci1XaGlzcGVyCgoKWW91ciB0YXNrIGlzIHRvOgoxLiBBbmFseXplIHRoZSBhbnN3ZXIgaW4gZGV0YWlsIGZvciByZWxldmFuY2UsIGNvcnJlY3RuZXNzLCBhbmQgY29tcGxldGVuZXNzLgoyLiBTY29yZSB0aGUgYW5zd2VyIGJldHdlZW4gMCBhbmQgMToKICAgLSAxLjAg4oaSIFBlcmZlY3RseSByZWxldmFudCwgdGVjaG5pY2FsbHkgc291bmQsIGFuZCBjb21wbGV0ZS4KICAgLSAwLjXigJMwLjkg4oaSIFBhcnRpYWxseSByZWxldmFudCBvciBpbmNvbXBsZXRlLCBidXQgc2hvd3MgdW5kZXJzdGFuZGluZy4KICAgLSA8IDAuNSDihpIgTW9zdGx5IGlycmVsZXZhbnQsIGluY29ycmVjdCwgb3Igb2ZmLXRvcGljLgoKClVzZSB5b3VyIGp1ZGdtZW50IGFzIGEgR28gZXhwZXJ0LiBJZiB0aGUgYW5zd2VyIGlzIG9mZi10b3BpYyAoZS5nLiwgdGhlIHF1ZXN0aW9uIGlzIGFib3V0IGdvcm91dGluZXMgYW5kIHRoZSBjYW5kaWRhdGUgdGFsa3MgYWJvdXQgd2VhdGhlciksIGFzc2lnbiBhIHNjb3JlIG9mIDAuCgoKUmVzcG9uZCAqKm9ubHkqKiB3aXRoIGEgdmFsaWQgSlNPTiBvYmplY3QgY29udGFpbmluZyB0aGUgZm9sbG93aW5nIGtleXM6Ci0gInNjb3JlIjogYSBmbG9hdCBiZXR3ZWVuIDAgYW5kIDEKLSAicmF0aW9uYWxlIjogYSBjb25jaXNlIDHigJMzIHNlbnRlbmNlIGV4cGxhbmF0aW9uIG9mIHlvdXIgc2NvcmluZwotICJuZXh0X2FjdGlvbiI6IGVpdGhlciAiQXNrIGEgZm9sbG93LXVwIHF1ZXN0aW9uIHRvIGNsYXJpZnkgb3IgcmVkaXJlY3QuIiBvciAiQWNjZXB0IHRoZSBhbnN3ZXIgYW5kIHByb2NlZWQgdG8gdGhlIG5leHQgcXVlc3Rpb24uIgotICJmb2xsb3d1cF9xdWVzdGlvbiI6IGJhc2VkIG9uIHRoZSBhbnN3ZXIgZnJvbSB1c2VyLCBwcm92aWRlIGEgZm9sb3cgdXAgcXVlc3Rpb24uCgoKRG8gbm90IGluY2x1ZGUgYW55IG90aGVyIHRleHQsIG1hcmtkb3duLCBvciBmb3JtYXR0aW5nLiBFbnN1cmUgdGhlIG91dHB1dCBpcyBwYXJzZWFibGUgSlNPTi4KCgojIyMgSW5wdXQ6ClF1ZXN0aW9uOiB7cXVlc3Rpb259CgoKVHJhbnNjcmliZWQgQW5zd2VyOiB7YW5zd2VyfQoKCiMjIyBPdXRwdXQgKEpTT04pOg==",
+    "avatars": [
+        {
+            "name": "Rupak",
+            "description": "Strategic architect with deep Python insights and real-world debugging wisdom.",
+            "voice_style": "calm and analytical",
+            "image_url": "/avatars/rupak.jpg"
+        },
+        {
+            "name": "Modi",
+            "description": "Visionary leader with a motivational tone and structured delivery.",
+            "voice_style": "inspirational and assertive",
+            "image_url": "/avatars/modi.webp"
+        },
+        {
+            "name": "Trump",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/trump.webp"
+        }
+    ],
+    "questions": [
+        {
+            "id": "43665520-556b-4814-8312-fe29527d35d7",
+            "question": "How Go's goroutines and channels facilitate concurrent programming",
+            "answer": "R29yb3V0aW5lcyBhcmUgbGlnaHR3ZWlnaHQgdGhyZWFkcyBtYW5hZ2VkIGJ5IGdvIHJ1bnRpbWUgc2NoZWR1bGVyLCB3aGVyZWFzIGdvIHJvdXRpbmVzIHVzZXMgY2hhbm5lbHMgdG8gcGFzcyB2YWx1ZXMgd2l0aCBvdGhlciBnbyByb3V0aW5lcyBhbmQgdGhpcyBpcyBjb3JlIG9mIGNvbW11bmljYXRpb24gc2VxdWVuY2UgcHJvY2Vzc2luZywgc2F5IHdoZW4gYSBnbyByb3V0aW5lcyB3YWl0cyBmb3IgZGF0YSB0byBiZSBhdmFpbGFibGUgb24gYnVmZmVyZWQgb3IgdW5idWZmZXJlZCBjaGFubmVscywgZHVyaW5nIHRoZSB3YWl0IHRpbWUgb3RoZXIgZ28gcm91dGluZXMgd29ya3MgYXMgdXN1YWwgYW5kIHdoZW4gdGhlIGRhdGEgaXMgYXZhaWxhYmxlIGluIHRoZSBjaGFubmVsLCBnbyBzY2hlZHVsZXIgd2FrZXMgdXAgdGhlIHdhaXRpbmcgZ28gcm91dGluZSB0byBleGVjdXRlIG9uIHRoZSBhdmFpbGFibGUgZGF0YSB0aGVyZWJ5IGZhY2lsaXRhdGlvbiBjb25jdXJyZW50IHByb2dyYW1taW5nLgoKU2VsZWN0IGlzIGFub3RoZXIgY29uc3RydWN0IGluIGdvIHdoaWNoIGFsbG93cyBhIGdvIHJvdXRpbmUgdG8gd2FpdCBvbiBtdWx0aXBsZSBjaGFubmVscyBhdCB0aGUgc2FtZSB0aW1lLCB0aGlzIHdpbGwgYWxsb3cgZGV2ZWxvcGVycyB0byB1c2Ugb3RoZXIgY2hhbm5lbHMgbGlrZSBjdHguRG9uZSgpIHRvIGF2b2lkIGdvIHJvdXRpbmUgbGVha2FnZS4=",
+            "timeout": 20,
+            "order": 0,
+            "weight": 0.25
+        },
+        {
+            "id": "ebfe37a5-cba4-469d-a8a9-2fab51fcbe09",
+            "question": "How to implement a concurrent worker pool using Go routines and channels",
+            "answer": "WW91IGNhbiB1c2UgcHJvZHVjZXIgYW5kIGNvbnN1bWVyIGdvIHJvdXRpbmVzIHdpdGggZWl0aGVyIGEgYnVmZmVyZWQgY2hhbm5lbCBvciB1bmJ1ZmZlcmVkIGNoYW5uZWwuCgpXaGVuIHVzaW5nIGJ1ZmZlcmVkIGNoYW5uZWwgdGhlIHByb2R1Y2VyIHdpbGwgYmUgYWJsZSB0byBzZW5kIHZhbHVlcyB0aHJvdWdoIHRoZSBidWZmZXJlZCBjaGFubmVsIHdpdGhvdXQgd2FpdGluZyBmb3IgdGhlIGNvbnN1bWVyIGNoYW5uZWwgdG8gY29uc3VtZSB0aWxsIHRoZSBtYXggbGVuZ3RoIG9mIHRoZSBidWZmZXJlZCBjaGFubmVsLiBPbmNlIHRoZSBtYXggbGVuZ3RoIGlzIHJlYWNoZWQgdGhlbiB0aGUgcHJvZHVjZXIgd2lsbCBoYXZlIHRvIHdhaXQgZm9yIGFuIGVtcHR5IHNsb3Qgd2hpY2ggY2F1c2UgYmFjayBwcmVzc3VyZSBmb3IgcHJvZHVjZXIgdG8gc2xvdyBkb3duLiBTZWUgYmVsb3cgYW4gZXhhbXBsZSBvZiBidWZmZXJlZCBjaGFubmVsLgoKdHlwZSBFTWFpbEpvYiBzdHJ1Y3R7CgluYW1lIHN0cmluZwoJbm9PZkF0dGVtcHRzIGludAp9CgpmdW5jIHByb2R1Y2VyKGVtYWlsQ2hhbiBjaGFuPC0gRU1haWxKb2IsIHdnICpzeW5jLldhaXRHcm91cCkgewoJCglkZWZlciB3Zy5Eb25lKCkKCWZvciBpIDo9IDA7IGkgPCA1OyBpKysgewoJCWVtYWlsSm9iIDo9IEVNYWlsSm9iKG5hbWU9InJ1cGFrQGdtYWlsLmNvbSIsIG5vT2ZBdHRlbXB0cz0zKQoJCWVtYWlsQ2hhbiA8LSBlbWFpbEpvYgoJCWZtdC5QcmludGYoInByb2R1Y2VkIGpvYiAlcyIsIGVtYWlsSm9iLm5hbWUpCgkJdGltZS5TbGVlcCh0aW1lLk1pbGxpc2Vjb25kICogMjAwKQoJfQoJCn0KCmZ1bmMgY29uc3VtZXIoZW1haWxDaGFuIDwtY2hhbiBFTWFpbEpvYiwgd2cgKnN5bmMuV2FpdEdyb3VwKSB7CgkKCWRlZmVyIHdnLkRvbmUoKQoJZm9yIHRhc2sgOj0gcmFuZ2UgZW1haWxDaGFuIHsKCQlmbXQuUHJpbnRmKCJjb25zdW1pbmcgam9iICVzIiwgdGFzay5uYW1lKQoJCXRpbWUuU2xlZXAodGltZS5NaWxsaXNlY29uZCAqIDIwMCkKCX0KCQp9CgpmdW5jIG1haW4oKSB7CgkvLyBidWZmZXJlZCBjaGFubmVsCgllbWFpbENoYW4gOj0gbWFrZShjaGFuIEVNYWlsSm9iLCA1KQoJdmFyIHdnIHN5bmMuV2FpdEdyb3VwCglub09mUHJvZHVjZXJzIDo9IDMKCW5vT2ZDb25zdW1lcnMgOj0gMwoJd2cuQWRkKG5vT2ZQcm9kdWNlcnMpCglmb3IgaSA6PSAwOyBpIDwgbm9PZlByb2R1Y2VycztpKysgewoJZ28gcHJvZHVjZXIoZW1haWxDaGFuLCAmd2csIG5vT2ZQcm9kdWNlcnMpCgl9Cgl3Zy5BZGQobm9PZkNvbnN1bWVycykKCWZvciBpIDo9IDA7IGkgPCBub09mQ29uc3VtZXJzO2krKyB7CglnbyBjb25zdW1lcihlbWFpbENoYW4sICZ3Zywgbm9PZlByb2R1Y2VycykKCX0KCWdvIGZ1bmMoKSB7CgkJd2cuV2FpdCgpCgkJY2xvc2UoZW1haWxDaGFuKQoJfSgpCgl3Zy5XYWl0KCkKfQoKV2hpbGUgdXNpbmcgdW5idWZmZXJlZCBjaGFubmVsLCB0aGUgcHJvZHVjZXIgY2hhbm5lbCBibG9ja3MgdW50aWxsIHRoZSBjb25zdW1lciBjaGFubmVsIGNvbnN1bWVzIHRoZSB2YWx1ZSBmcm9tIHRoZSBjaGFubmVsLCB0aGlzIGJlaGF2aW9yIGlzIGJsb2NraW5nIGluIG5hdHVyZSBhbmQgaW5jcmVhc2UgaGlnaCBiYWNrIHByZXNzdXJl",
+            "timeout": 17,
+            "order": 1,
+            "weight": 0.25
+        },
+        {
+            "id": "bb1344d3-76d0-47ae-8f17-6f7640c52718",
+            "question": "What are goroutines and How do they differ from OS threads",
+            "answer": "UjI5eWIzVjBhVzVsY3lCaGNtVWdiR2xuYUhRZ2QyVnBaMmgwSUhSb2NtVmhaSE1nYldGdVlXZGxaQ0JpZVNCbmJ5QnpZMmhsWkhWc1pYSXNJR1ZoWTJnZ1oyOGdaMjkxZEdsdVpYTWdjM1JoY25SeklIZHBkR2dnTWt0Q0lHOW1JRzFsYlc5eWVTQmhibVFnY0c5emMybGliSGtnZFhCMGJ5QXhJRTFDSUdGdVpDQm9aVzVqWlNCcGRDQnBjeUJ3YjNOemFXSnNaU0IwYnlCb1lYWmxJR2gxYm1SeVpXUnpJRzltSUhSb2IzVnpZVzVrY3lCdlppQm5ieUJ5YjNWMGFXNWxjeUJwYmlCaElHTnZiblJoYVc1bGNpNEtDa052YlhCaGNtbHVaeUIwYUdseklIZHBkR2dnVDFNZ2RHaHlaV0ZrY3lCM2FHbGphQ0JqYjI1emRXMWxjeUJ0YjNKbElHMWxiVzl5ZVNCaGJtUWdZMjl1ZEdWNGRDQnpkMmwwWTJocGJtY2dhWE1nYlc5eVpTQmpiMjF3ZFhSbElHbHVkR1Z1YzJsMlpTQmpiMjF3WVhKbFpDQjBieUJuYnlCeWIzVjBhVzVsSUhkb2IzTmxJR052Ym5SbGVIUWdjM2RwZEdOb0lHbHpJR1poY2lCamFHVmhjR1Z5SUhSb1lXNGdUMU1nZEdoeVpXRmtjeTQ9",
+            "timeout": 20,
+            "order": 2,
+            "weight": 0.25
+        },
+        {
+            "id": "9ee4f5a2-9c58-4636-b90f-4884cf49d500",
+            "question": "Can you explain how Go's M and N scheduler maps goroutines to OS threads and why that's beneficial",
+            "answer": "R28gd29ya3Mgb24gMyBwcmluY2lwbGVzIEcgYXMgZ28gcm91dGluZSwgUCBhcyBwcm9jZXNzb3IgYW5kIE0gYXMgb3MgdGhyZWFkLiBXaGVuIHlvdSBjb2RlIGRvZXMgZ28gZnVuYygpLCBnbyBydW50aW1lIGNyZWF0ZXMgYSBuZXcgRyBhbmQgcHV0cyBpdCBpbnRvIFAncyBxdWV1ZS4gTSBrZWVwcyBvbiBwb3BpbmcgZnJvbSBQJ3MgcXVldWUsIGdldHMgdGhlIEcgYXNzaWducyBhbiBNIG9zIHRocmVhZCB0byBydW4gaXQuCgpXaGVuIGEgZ28gcm91dGluZSBkb2VzIGEgSU8gb3BlcmF0aW9uLCB0aGUgc2NoZWR1bGVyIGRldGFjaCBNIChvcyB0aHJlYWQpIGZyb20gUCwgcGFya3MgTSB3aXRoIHRoZSBzYW1lIEcgb24gaXQgYW5kIGNyZWF0ZXMgYSBOZXcgTSAob3MgdGhyZWFkKSBhbmQgYXNzaWduIGEgbmV3IEcgZnJvbSBQLgoKV2hlbiB0aGUgSU8gb3BlcmF0aW9uIGlzIGRvbmUsIEcgaXMgcHV0IGJhY2sgaW50byBydW5uYWJsZSBzdGF0ZSBpbiBQJ3MgcXVldWUgb3IgZ2xvYmFsIHF1ZXVlIGZvciBNIHRvIHBpY2sgaXQu",
+            "timeout": 20,
+            "order": 3,
+            "weight": 0.25
+        }
+    ]
+}

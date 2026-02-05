@@ -1,0 +1,76 @@
+{
+    "id": "ba53daab-a690-4a77-8edf-8328772e2a1b",
+    "test_name": "Maths Test",
+    "role": "Basic",
+    "date": "2025-11-09T00:00:00Z",
+    "session_timeout": "300",
+    "evaluation_query": "WW91IGFyZSBhIHNlbmlvciBpbnRlcnZpZXdlciBjb25kdWN0aW5nIGEgcHJvYmxlbeKAkXNvbHZpbmcgYXNzZXNzbWVudC4gWW914oCZdmUgYmVlbiBnaXZlbjoKCi0gQSBtYXRoL2xvZ2ljIHF1ZXN0aW9uIGFza2VkIGJ5IHRoZSBhZ2VudAotIEFuIGFuc3dlciB0cmFuc2NyaWJlZCBmcm9tIHRoZSBjYW5kaWRhdGXigJlzIHZvaWNlIHJlY29yZGluZyB1c2luZyBGYXN0ZXLigJFXaGlzcGVyCgpZb3VyIHRhc2sgaXMgdG86CjEuIEFuYWx5emUgdGhlIGFuc3dlciBpbiBkZXRhaWwgZm9yIHJlbGV2YW5jZSwgY29ycmVjdG5lc3MsIGFuZCBjb21wbGV0ZW5lc3MuCjIuIFNjb3JlIHRoZSBhbnN3ZXIgYmV0d2VlbiAwIGFuZCAxOgogICAtIDEuMCDihpIgUGVyZmVjdGx5IHJlbGV2YW50LCBsb2dpY2FsbHkgc291bmQsIGFuZCBjb21wbGV0ZS4KICAgLSAwLjXigJMwLjkg4oaSIFBhcnRpYWxseSByZWxldmFudCBvciBpbmNvbXBsZXRlLCBidXQgc2hvd3MgdW5kZXJzdGFuZGluZy4KICAgLSA8IDAuNSDihpIgTW9zdGx5IGlycmVsZXZhbnQsIGluY29ycmVjdCwgb3Igb2Zm4oCRdG9waWMuCgpVc2UgeW91ciBqdWRnbWVudCBhcyBhbiBpbnRlcnZpZXdlci4gSWYgdGhlIGFuc3dlciBpcyBvZmbigJF0b3BpYyAoZS5nLiwgdGhlIHF1ZXN0aW9uIGlzIGFib3V0IG1hdGggYW5kIHRoZSBjYW5kaWRhdGUgdGFsa3MgYWJvdXQgd2VhdGhlciksIGFzc2lnbiBhIHNjb3JlIG9mIDAuCgpSZXNwb25kICoqb25seSoqIHdpdGggYSB2YWxpZCBKU09OIG9iamVjdCBjb250YWluaW5nIHRoZSBmb2xsb3dpbmcga2V5czoKLSAic2NvcmUiOiBhIGZsb2F0IGJldHdlZW4gMCBhbmQgMQotICJyYXRpb25hbGUiOiBhIGNvbmNpc2UgMeKAkzMgc2VudGVuY2UgZXhwbGFuYXRpb24gb2YgeW91ciBzY29yaW5nCi0gIm5leHRfYWN0aW9uIjogZWl0aGVyICJBc2sgYSBmb2xsb3ctdXAgcXVlc3Rpb24gdG8gY2xhcmlmeSBvciByZWRpcmVjdC4iIG9yICJBY2NlcHQgdGhlIGFuc3dlciBhbmQgcHJvY2VlZCB0byB0aGUgbmV4dCBxdWVzdGlvbi4iCi0gImZvbGxvd3VwX3F1ZXN0aW9uIjogYmFzZWQgb24gdGhlIGNhbmRpZGF0ZeKAmXMgYW5zd2VyLCBwcm92aWRlIGEgZm9sbG934oCRdXAgcXVlc3Rpb24uCgpEbyBub3QgaW5jbHVkZSBhbnkgb3RoZXIgdGV4dCwgbWFya2Rvd24sIG9yIGZvcm1hdHRpbmcuIEVuc3VyZSB0aGUgb3V0cHV0IGlzIHBhcnNlYWJsZSBKU09OLgoKIyMjIElucHV0OgpRdWVzdGlvbjoge3F1ZXN0aW9ufQoKVHJhbnNjcmliZWQgQW5zd2VyOiB7YW5zd2VyfQoKIyMjIE91dHB1dCAoSlNPTik6",
+    "avatars": [
+        {
+            "name": "Rupak",
+            "description": "Strategic architect with deep Python insights and real-world debugging wisdom.",
+            "voice_style": "calm and analytical",
+            "image_url": "/avatars/rupak.webp"
+        },
+        {
+            "name": "Musk",
+            "description": "Visionary leader with a motivational tone and structured delivery.",
+            "voice_style": "inspirational and assertive",
+            "image_url": "/avatars/musk.webp"
+        },
+        {
+            "name": "Trump",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/trump.webp"
+        },
+        {
+            "name": "Bachchan",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/bachchan.webp"
+        }
+    ],
+    "questions": [
+        {
+            "id": "031c8871-6f48-4e1e-be37-536d13b74b1d",
+            "question": "Hi I am your maths teacher for today. Here comes the first question - Your father gave 19 Dollars to you and your mother gave 21 Dollars. How many dollars do you have now?",
+            "answer": "NDAgRG9sbGFycw==",
+            "timeout": 25,
+            "order": 0,
+            "weight": 0.2
+        },
+        {
+            "id": "ae3433e5-4db7-4c40-8ccc-ff5f9a940cbc",
+            "question": "A bat and a ball cost $1.10 together. The bat costs $1 more than the ball. How many dollars will the ball cost",
+            "answer": "",
+            "timeout": 30,
+            "order": 1,
+            "weight": 0.2
+        },
+        {
+            "id": "6b999e2a-4174-4361-86dc-ea77cf1b676e",
+            "question": "If tomorrow is Wednesday, what day is yesterday?",
+            "answer": "",
+            "timeout": 20,
+            "order": 2,
+            "weight": 0.2
+        },
+        {
+            "id": "b95bccd2-4a90-4dcb-a4f7-f87a95faf0ac",
+            "question": "If you divide a number by zero what would be the result",
+            "answer": "",
+            "timeout": 20,
+            "order": 3,
+            "weight": 0.2
+        },
+        {
+            "id": "d3c215d9-8383-4a32-b0e7-4f67445a1f14",
+            "question": "If your mother give you an apple and ask you to divide equally among your 4 siblings including you how much each of you and your siblings will get?",
+            "answer": "",
+            "timeout": 20,
+            "order": 4,
+            "weight": 0.2
+        }
+    ]
+}

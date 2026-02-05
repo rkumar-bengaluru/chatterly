@@ -1,0 +1,52 @@
+{
+    "id": "fcc7871c-03b0-49ba-8659-cdd2388e2d3e",
+    "test_name": "VA Group",
+    "role": "Full-Stack Developer",
+    "date": "2025-11-10T00:00:00Z",
+    "session_timeout": "120",
+    "evaluation_query": "eHh4eA==",
+    "avatars": [
+        {
+            "name": "Rupak",
+            "description": "Strategic architect with deep Python insights and real-world debugging wisdom.",
+            "voice_style": "calm and analytical",
+            "image_url": "/avatars/rupak.jpg"
+        },
+        {
+            "name": "Musk",
+            "description": "Visionary leader with a motivational tone and structured delivery.",
+            "voice_style": "inspirational and assertive",
+            "image_url": "/avatars/musk.webp"
+        },
+        {
+            "name": "Trump",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/trump.webp"
+        },
+        {
+            "name": "Bachchan",
+            "description": "Bold communicator with a direct, high-energy style.",
+            "voice_style": "confident and persuasive",
+            "image_url": "/avatars/bachchan.webp"
+        }
+    ],
+    "questions": [
+        {
+            "id": "bbca6fb3-59bc-4f18-a26a-5b6514217115",
+            "question": "why you are a good fit for this role",
+            "answer": "SSBoYXZlIGxvb2tlZCBhdCB0aGUgSkQsIGFuZCBJIGJlbGlldmUgSSBhbSBhIGdvb2QgZml0IGZvciB0aGlzIHJvbGUgYmVjYXVzZSBpIGhhdmUgZXh0ZW5zaXZlIGV4cGVyaWVuY2Ugb24gYmFja2VuZCBBUEkgZGV2ZWxvcG1lbnQgdXNpbmcgUHl0aG9uLCBHbyBhbmQgSmF2YSwgYXMgd2VsbCBhcyBGcm9udGVuZCBEZXZlbG9wbWVudCBVc2luZyBSZWFjdCBUUyB3aXRoIE5leHRKUy4gUmVjZW50bHkgSSBoYXZlIGRlc2lnbmVkIGFuZCBkZXZlbG9wZWQgYSBQbGF0Zm9ybSB1c2luZyB0aGVzZSB0ZWNobm9sb2dpZXMgdG8gcHJhY3RpY2UgdGVzdCBsaWtlIE1hdGhzLCBHbywgUmVhY3QgYW5kIGdldCByZWFsIHRpbWUgc2NvcmUgYXNzZXNtZW50IHVzaW5nIEFJIGxpa2UgZ2VtaW5pLCBPcGVuQUkgYW5kIHRoZSBwaXBlbGluZSBpcyBkZXZlbG9wZWQgdXNpbmcgTGFuZ0NoYWluLg==",
+            "timeout": 45,
+            "order": 0,
+            "weight": 0.5
+        },
+        {
+            "id": "f4a9ae5d-6214-46b8-ba1a-5973e7c4cc6b",
+            "question": "what unique qualities you bring to our team.",
+            "answer": "SSBoYXZlIDE1KyB5ZWFycyBvZiBleHBlcmllbmNlIGltcGxlbWVudGluZyBsYXJnZSBzY2FsZSBhcHBsaWNhdGlvbnMgZm9yIHZhcmlvdXMgY29tcGFuaWVzIGluY2x1ZGluZyBnb2xkbWFuIHNhY2hzIGFuZCBKUCBNb3JnYW4uIEkgaGF2ZSBsZWQgdGhlIGRlc2lnbiBhbmQgZGV2ZWxvcG1lbnQgb2YgY29tcGxleCBwcm9qZWN0cyBsZXZlcmFnaW5nIE5hdGl2ZSBDbG91ZCwgR28sIFB5dGhvbiwgUmVhY3QgYW5kIGRhdGFiYXNlIHRlY2hub2xvZ2llcy4gSSBiZWxpZXZlIGkgY291bGQgYnJpbmcgdGhhdCBleHBlcmllbmNlIGFuZCBoZWxwIGJ1aWxkIGEgd29ybGQgY2xhc3MgcHJvZHVjdC4=",
+            "timeout": 45,
+            "order": 1,
+            "weight": 0.5
+        }
+    ]
+}

@@ -21,6 +21,7 @@ from chatterly.utils.logger import setup_daily_logger
 from chatterly.utils.constants import LOGGER_NAME, LOGGER_DIR
 from chatterly.poc.curation.dialog import QuestionDialog
 import base64
+import uuid
 
 class InterviewApp(QWidget):
     def __init__(self):
@@ -76,16 +77,22 @@ class InterviewApp(QWidget):
                 "image_url": "/avatars/rupak.jpg"
             },
             {
-                "name": "Modi",
+                "name": "Musk",
                 "description": "Visionary leader with a motivational tone and structured delivery.",
                 "voice_style": "inspirational and assertive",
-                "image_url": "/avatars/modi.webp"
+                "image_url": "/avatars/musk.webp"
             },
             {
                 "name": "Trump",
                 "description": "Bold communicator with a direct, high-energy style.",
                 "voice_style": "confident and persuasive",
                 "image_url": "/avatars/trump.webp"
+            },
+            {
+                "name": "Bachchan",
+                "description": "Bold communicator with a direct, high-energy style.",
+                "voice_style": "confident and persuasive",
+                "image_url": "/avatars/bachchan.webp"
             }
         ]
 
@@ -93,6 +100,8 @@ class InterviewApp(QWidget):
 
     def create_session_form(self):
         self.form_layout = QFormLayout()
+
+        self.interview_id = str(uuid.uuid4())
 
         self.interview_name_input = QLineEdit()
         self.interview_name_input.setToolTip("Name of the interview session (e.g., Go Lang Interview)")
@@ -133,6 +142,7 @@ class InterviewApp(QWidget):
         scroll.setWidget(self.question_group)
         self.layout.addWidget(scroll)
         self.interview_session = {
+            "id": self.interview_id,
             "test_name": "",
             "role": "",
             "date": "",
@@ -169,6 +179,7 @@ class InterviewApp(QWidget):
         # Prepare new question data
         question_data = {
             "question": "",
+            "answer": "",
             "timeout": 20,
             "order": next_order,
             "weight": equal_weight
@@ -219,7 +230,7 @@ class InterviewApp(QWidget):
         timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
         
         
-        filename = f"{self.current_session}/{name.replace(' ', '_')}_{timestamp}.json"
+        filename = f"{SESSIONS_DIR}/{name.replace(' ', '_')}/{name.replace(' ', '_')}_{timestamp}.json"
 
         with open(filename, "w") as f:
             json.dump(self.interview_session, f, indent=4)
@@ -233,8 +244,13 @@ class InterviewApp(QWidget):
             with open(file_path, "r") as f:
                 self.interview_session = json.load(f)
 
-            self.interview_name_input.setText(self.interview_session.get("interview_name", ""))
-            self.role_input.setText(self.interview_session.get("role", ""))
+            self.interview_name_input.setText(self.interview_session.get("test_name", ""))
+            self.session_timeout_input.setText(self.interview_session.get("role", ""))
+            self.role_input.setText(self.interview_session.get("session_timeout", ""))
+            equery = self.interview_session.get("evaluation_query")
+            equery = base64.b64decode(equery)
+            equery = equery.decode("utf-8")
+            self.evaluation_query_input.setPlainText(equery)
             date_str = self.interview_session.get("date", "")
             if date_str:
                 try:

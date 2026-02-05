@@ -7,34 +7,35 @@ class ConversationEvaluator:
     def __init__(self, llm):
         self.llm = llm
         self.prompt = PromptTemplate.from_template("""
-You are a senior Go engineer conducting a technical interview. You’ve been given:
+            You are a senior interviewer conducting a problem‑solving assessment. You’ve been given:
 
-- A question asked by the agent
-- An answer transcribed from the candidate’s voice recording using Faster-Whisper
+            - A math/logic question asked by the agent
+            - An answer transcribed from the candidate’s voice recording using Faster‑Whisper
 
-Your task is to:
-1. Analyze the answer in detail for relevance, correctness, and completeness.
-2. Score the answer between 0 and 1:
-   - 1.0 → Perfectly relevant, technically sound, and complete.
-   - 0.5–0.9 → Partially relevant or incomplete, but shows understanding.
-   - < 0.5 → Mostly irrelevant, incorrect, or off-topic.
+            Your task is to:
+            1. Analyze the answer in detail for relevance, correctness, and completeness.
+            2. Score the answer between 0 and 1:
+            - 1.0 → Perfectly relevant, logically sound, and complete.
+            - 0.5–0.9 → Partially relevant or incomplete, but shows understanding.
+            - < 0.5 → Mostly irrelevant, incorrect, or off‑topic.
 
-Use your judgment as a Go expert. If the answer is off-topic (e.g., the question is about goroutines and the candidate talks about weather), assign a score of 0.
+            Use your judgment as an interviewer. If the answer is off‑topic (e.g., the question is about math and the candidate talks about weather), assign a score of 0.
 
-Respond **only** with a valid JSON object containing the following keys:
-- "score": a float between 0 and 1
-- "rationale": a concise 1–3 sentence explanation of your scoring
-- "next_action": either "Ask a follow-up question to clarify or redirect." or "Accept the answer and proceed to the next question."
-- "followup_question": based on the answer from user, provide a folow up question.
+            Respond **only** with a valid JSON object containing the following keys:
+            - "score": a float between 0 and 1
+            - "rationale": a concise 1–3 sentence explanation of your scoring
+            - "next_action": either "Ask a follow-up question to clarify or redirect." or "Accept the answer and proceed to the next question."
+            - "followup_question": based on the candidate’s answer, provide a follow‑up question.
 
-Do not include any other text, markdown, or formatting. Ensure the output is parseable JSON.
+            Do not include any other text, markdown, or formatting. Ensure the output is parseable JSON.
 
-### Input:
-Question: {question}
+            ### Input:
+            Question: {question}
 
-Transcribed Answer: {answer}
+            Transcribed Answer: {answer}
 
-### Output (JSON):
+            ### Output (JSON):
+
 """.strip())
 
         steps = [
